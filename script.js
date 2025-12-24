@@ -68,6 +68,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // 设置最大生成数量限制（考虑性能因素）
+        const MAX_BARCODES = 1000;
+        if (dataList.length > MAX_BARCODES) {
+            alert(`条形码数量不能超过 ${MAX_BARCODES} 个！当前输入了 ${dataList.length} 个，请减少数量后重试。`);
+            return;
+        }
+        
         // 获取配置参数
         const type = barcodeType.value;
         const width = parseInt(barcodeWidth.value);
