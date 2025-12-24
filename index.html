@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量条形码生成系统</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="img/loge_transparent.png" alt="Logo" id="page-logo">
+            <h1>批量条形码生成系统</h1>
+        </header>
+        
+        <main>
+            <section class="input-section">
+                <h2>条形码数据输入</h2>
+                <form id="barcodeForm">
+                    <div class="form-group">
+                        <label for="barcodeData">条形码数据（每行一个）：</label>
+                        <textarea id="barcodeData" rows="10" placeholder="请输入条形码数据，每行一个..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="barcodeType">条形码类型：</label>
+                        <select id="barcodeType">
+                            <option value="code128">Code 128</option>
+                            <option value="ean13">EAN-13</option>
+                            <option value="ean8">EAN-8</option>
+                            <option value="upc">UPC</option>
+                            <option value="code39">Code 39</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="barcodeWidth">条形码宽度：</label>
+                        <input type="number" id="barcodeWidth" value="2" min="1" max="10">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="barcodeHeight">条形码高度：</label>
+                        <input type="number" id="barcodeHeight" value="100" min="10" max="300">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="showText">显示文本：</label>
+                        <input type="checkbox" id="showText" checked>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="textAbove">条码上方文字：</label>
+                        <input type="text" id="textAbove" placeholder="输入上方文字">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="textBelow">条码下方文字：</label>
+                        <input type="text" id="textBelow" placeholder="输入下方文字">
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" id="generateBtn" class="btn btn-primary">生成条形码</button>
+                        <button type="button" id="exportBtn" class="btn btn-secondary">导出为图片</button>
+                        <button type="button" id="clearBtn" class="btn btn-secondary">清空</button>
+                    </div>
+                </form>
+            </section>
+            
+            <section class="output-section">
+                <h2>生成的条形码</h2>
+                
+                <!-- 播放控制界面 -->
+                <div class="playback-controls">
+                    <h3>播放控制</h3>
+                    <div class="playback-group">
+                        <button id="playBtn" class="btn btn-primary">播放</button>
+                        <button id="pauseBtn" class="btn btn-secondary">暂停</button>
+                        <span>播放间隔（毫秒）：</span>
+                        <input type="number" id="playbackInterval" value="400" min="100" max="5000" step="100">
+                    </div>
+                    <div id="currentBarcodeInfo" class="playback-info"></div>
+                </div>
+                
+                <!-- 播放弹出窗口 -->
+                <div id="playbackModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>条码播放</h3>
+                            <button id="closeModalBtn" class="close-btn">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="modalBarcodeContainer" class="barcode-container modal-barcode-container"></div>
+                            <div id="modalCurrentBarcodeInfo" class="playback-info"></div>
+                            <div id="playbackEndMessage" class="playback-end-message">播放结束</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="modalStopBtn" class="btn btn-secondary">停止播放</button>
+                            <button id="modalContinueBtn" class="btn btn-primary">继续播放</button>
+                            <button id="modalCloseBtn" class="btn btn-secondary">关闭窗口</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="barcodeContainer" class="barcode-container"></div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
